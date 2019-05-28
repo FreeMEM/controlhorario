@@ -1,5 +1,6 @@
 from django import forms
 from .models import Track
+from django.contrib.admin import widgets  
 
 
 class TrackingForm(forms.ModelForm):
@@ -18,6 +19,13 @@ class TrackingForm(forms.ModelForm):
         }
 
         widgets = {
-            'start': forms.TimeInput(attrs={'class':'form-control'}),
-            'end': forms.TimeInput(attrs={'class':'form-control'}),
+            # 'start': forms.DateInput(),
+            # 'end': forms.DateInput(),
+            'start': forms.TimeInput(),
+            'end': forms.TimeInput(),
+        }
+
+        initial = {
+            'start' : "21:00",
+            'end' : "20:00"
         }

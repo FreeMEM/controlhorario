@@ -32,8 +32,8 @@ class Track(models.Model):
 	created_at = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
-		cadena= "Entrada: {0} - Salida: {1}  Comentario: {2}"
-		return cadena.format(self.start, self.end, self.comment)
+		cadena= "Entrada: {0} - Salida: {1}"
+		return cadena.format(self.start, self.end)
 	
 	
 

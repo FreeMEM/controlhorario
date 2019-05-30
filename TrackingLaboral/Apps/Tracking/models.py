@@ -26,14 +26,13 @@ class Employee(models.Model):
 		return cadena.format(self.name, self.company.name, self.email, self.user)
 
 class Track(models.Model):
-	start = models.DateTimeField()
-	end = models.DateTimeField()
+	
 	employee = models.ForeignKey('Employee', on_delete=models.DO_NOTHING, blank=False, null=False)
 	created_at = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
-		cadena= "Entrada: {0} - Salida: {1}"
-		return cadena.format(self.start, self.end)
+		cadena= "Empleado: {0} - registro: {1}"
+		return cadena.format(self.employee.name, self.created_at)
 	
 	
 

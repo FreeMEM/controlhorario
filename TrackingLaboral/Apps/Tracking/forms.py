@@ -9,23 +9,17 @@ class TrackingForm(forms.ModelForm):
         model = Track
 
         fields = [
-            'start',
-            'end',
+            'created_at',
         ]
         
         labels = {
-            'start': 'inicio',
-            'end': 'fin', 
+            'created_at': 'inicio',
         }
 
-        widgets = {
-            # 'start': forms.DateInput(),
-            # 'end': forms.DateInput(),
-            'start': forms.TimeInput(),
-            'end': forms.TimeInput(),
-        }
+        # widgets = {
+        
+        #     'start': forms.TimeInput(),
+        #     'end': forms.TimeInput(),
+        # }
 
-        initial = {
-            'start' : "21:00",
-            'end' : "20:00"
-        }
+        

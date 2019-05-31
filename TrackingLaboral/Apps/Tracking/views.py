@@ -15,12 +15,9 @@ def test(request):
 def trackinglist(request):
 	employee = Employee.objects.get(user=request.user)
 	# print(employee)
-	today=datetime.today()
-	
-	trackinglist=Track.objects.filter(Q(employee=employee) & Q(created_at__month = today.month) ).order_by(F('created_at').desc(nulls_last=True))#[:10]
-	
-	tracks={}
+	trackinglist=Track.objects.filter(Q(employee=employee) & Q(created_at__month = datetime.today().month) ).order_by(F('created_at').desc(nulls_last=True))#[:10]
 
+	tracks={}
 	for track in trackinglist:
 		dateKey=datetime.strftime(track.created_at, '%Y-%m-%d')
 		hour=datetime.strftime(track.created_at, '%H:%M')

@@ -5,7 +5,10 @@ register = template.Library()
 
 @register.filter
 def dateStrToDayWeek(value):
-    return datetime.strptime(value,"%Y-%m-%d").strftime('%A')
+    try:
+        return datetime.strptime(value,"%Y-%m-%d").strftime('%A')
+    except:
+        return ""
 
 
 register.filter('dateStrToDayWeek',dateStrToDayWeek)

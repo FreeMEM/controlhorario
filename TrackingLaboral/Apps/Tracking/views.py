@@ -2,7 +2,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils import formats
-from django.db.models import Count, F, Value
+from django.db.models import Count, F, Value, Q
 from django.db.models.functions import Length, Upper
 from .models import Track,Employee
 from datetime import datetime, date
@@ -14,9 +14,10 @@ def test(request):
 
 def trackinglist(request):
 	employee = Employee.objects.get(user=request.user)
-	print(employee)
-
-	trackinglist=Track.objects.filter(employee=employee).order_by(F('created_at').desc(nulls_last=True))[:10]
+	# print(employee)
+	today=datetime.today()
+	
+	trackinglist=Track.objects.filter(Q(employee=employee) & Q(created_at__month = today.month) ).order_by(F('created_at').desc(nulls_last=True))#[:10]
 	
 	tracks={}
 
@@ -29,17 +30,36 @@ def trackinglist(request):
 			tracks[dateKey]= [hour]
 	
 	
-
+	tracklist=[]
 	for date,hours in tracks.items():
+		# print(hours)
+		row=[]
+		firstRow=True
 		hours.reverse()
-		print(date)
-		print(hours)
+		for key in range(len(hours)):
+			if len(row) < 2:
+				row.append(("-",date)[firstRow==True])
+				row.append(("-",date)[firstRow==True])
+				row.append(hours[key])
+				firstRow=False
+			else:
+				row.append(hours[key])
+				tracklist.append(row)
+				row=[]
+			# print('>> %d == %d %d == 2' % (key,len(hours),len(row)))
+			if (key==len(hours)-1) and (len(row)-1==2):
+				row.append("-")
+				tracklist.append(row)
 
-	# 	hours = date.values()
+
+	# for pinta in tracklist:
+	# 	print("%s %s %s %s" % (pinta[0],pinta[1],pinta[2],pinta[3]))
+	# # 	hours = date.values()
 	# 	print(date)
 	# 	print(hours.reverse())
+	print("EL TIPO ES %s" % type(tracklist))
 
-	return render(request,"tracking/trackinglist.html",{'tracklist': tracks})
+	return render(request,"tracking/trackinglist.html",{'tracklist': tracklist})
 
 def tracking(request):
 	results = dict()

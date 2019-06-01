@@ -65,7 +65,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'libraries':{
-                'extratags': 'TrackingLaboral.templatetags.extratags'
+                'extratags': 'TrackingLaboral.templatetags.extratags',
+                'menu': 'TrackingLaboral.templatetags.menu'
             }
         },
     },

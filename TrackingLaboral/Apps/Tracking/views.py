@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils import formats
@@ -13,9 +14,11 @@ def test(request):
 	return render(request,"tracking/test.html")
 
 def trackinglist(request):
+	print(request.path)
+	print("__________________________________________")
 	employee = Employee.objects.get(user=request.user)
 	# print(employee)
-	trackinglist=Track.objects.filter(Q(employee=employee) & Q(created_at__month = datetime.today().month) ).order_by(F('created_at').desc(nulls_last=True))#[:10]
+	trackinglist=Track.objects.filter(Q(employee=employee) & Q(created_at__year = datetime.today().year) ).order_by(F('created_at').desc(nulls_last=True))[:100]
 
 	tracks={}
 	for track in trackinglist:
@@ -35,8 +38,8 @@ def trackinglist(request):
 		hours.reverse()
 		for key in range(len(hours)):
 			if len(row) < 2:
-				row.append(("-",date)[firstRow==True])
-				row.append(("-",date)[firstRow==True])
+				row.append(("",date)[firstRow==True])
+				row.append(("",date)[firstRow==True])
 				row.append(hours[key])
 				firstRow=False
 			else:
@@ -45,16 +48,16 @@ def trackinglist(request):
 				row=[]
 			# print('>> %d == %d %d == 2' % (key,len(hours),len(row)))
 			if (key==len(hours)-1) and (len(row)-1==2):
-				row.append("-")
+				row.append("")
 				tracklist.append(row)
 
 
-	# for pinta in tracklist:
-	# 	print("%s %s %s %s" % (pinta[0],pinta[1],pinta[2],pinta[3]))
-	# # 	hours = date.values()
-	# 	print(date)
-	# 	print(hours.reverse())
-	print("EL TIPO ES %s" % type(tracklist))
+	for pinta in tracklist:
+		print("%s %s %s %s" % (pinta[0],pinta[1],pinta[2],pinta[3]))
+	# 	hours = date.values()
+		# print(date)
+		# print(hours.reverse())
+	# print(tracklist)
 
 	return render(request,"tracking/trackinglist.html",{'tracklist': tracklist})
 
@@ -63,26 +66,16 @@ def tracking(request):
 	now = datetime.now()
 	if request.method == 'POST':
 		form = TrackingForm(request.POST)
-		
-		
 		if form.is_valid():
-			post = form.save(commit=False)	
-			today = datetime.today()
-				
-			# datetimeObject = datetime.datetime.strpstrptime(date_time_str, '%Y-%m-%d %H:%M')
-			# post.
-			results = dict(start=post.start, end=post.end)
-			# post.employee=Employee.objects.filter(email="francisco@ttss.net").first()
-			post.employee=Employee.objects.get(email="francisco@ttss.net")
-			
-			# post.start = 
-			# post.save()
+			post = form.save(commit=False)
+			post.employee=Employee.objects.get(user=request.user)
+			post.created_at=datetime.now()
+			post.save()
+			return HttpResponseRedirect('/trackinglist/')
 		else:
-			print(post.start)
-			print(type(post.start))
 			print("algo salio mal")	
-			print(form.errors)
-		
+			print(form.errors)	
+
 	else:
 		form = TrackingForm()
 	

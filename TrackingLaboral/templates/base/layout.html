@@ -1,5 +1,7 @@
 {% load staticfiles %}
 {% load extratags %}
+{% load menu %}
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -20,16 +22,19 @@
         <div class="navbar-nav-scroll">
             <ul class="navbar-nav bd-navbar-nav flex-row">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/tracking/">Registrar horario</a>
+                    <a class="nav-link {% active 'tracking' %}" href="{% url 'tracking' %}">Registrar horario</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/trackinglist/">Histórico</a>
+                    <a class="nav-link {% active 'trackinglist' %}" href="{% url 'trackinglist' %}">Histórico</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Configuración</a>
+                    <a class="nav-link {% if request.path == '/settings/' %} active {% endif %}>" href="/settings/">Configuración</a>
                 </li>
             </ul>
         </div>
+
+        
+
     {% endblock %}
     </header>
     <div class="container-fluid col-12">

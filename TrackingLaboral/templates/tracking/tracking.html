@@ -5,8 +5,7 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    <p>{{ form.start }}</p>
-    <p>{{ form.end }}</p>
+    <p>{{ form.created_at }}</p>
     <button type="submit">registrar</button>
 </form>
 {% if results %}

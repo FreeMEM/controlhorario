@@ -18,7 +18,7 @@ from django.urls import path,include
 from TrackingLaboral.Apps.Tracking.views import test
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('test/', test, name='test-view'), #I've commented this line because I've delegated it to the bellow codeline
     path('', include('TrackingLaboral.Apps.Tracking.urls')),
-
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
+

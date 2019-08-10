@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'TrackingLaboral.Apps.Tracking',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -82,7 +83,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'TrackingLaboral.sqlite3'),
-    }
+    },
+
+    # 'datamysql': {
+    #     'ENGINE': 'django.db.backends.mysql', 
+    #     'NAME': 'test',
+    #     'USER': 'test',
+    #     'PASSWORD': 'test',
+    #     'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+    #     'PORT': '3306',
+    # }
+
 }
 
 

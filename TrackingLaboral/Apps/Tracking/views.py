@@ -14,8 +14,7 @@ def test(request):
 	return render(request,"tracking/test.html")
 
 def trackinglist(request):
-	print(request.path)
-	print("__________________________________________")
+	
 	employee = Employee.objects.get(user=request.user)
 	# print(employee)
 	trackinglist=Track.objects.filter(Q(employee=employee) & Q(created_at__year = datetime.today().year) ).order_by(F('created_at').desc(nulls_last=True))[:100]
@@ -52,8 +51,8 @@ def trackinglist(request):
 				tracklist.append(row)
 
 
-	for pinta in tracklist:
-		print("%s %s %s %s" % (pinta[0],pinta[1],pinta[2],pinta[3]))
+	# for pinta in tracklist:
+	# 	print("%s %s %s %s" % (pinta[0],pinta[1],pinta[2],pinta[3]))
 	# 	hours = date.values()
 		# print(date)
 		# print(hours.reverse())
